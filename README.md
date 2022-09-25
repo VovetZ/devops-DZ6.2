@@ -134,9 +134,7 @@ GRANT
 - итоговый список БД после выполнения пунктов выше,
 ```
 test_db=# \l+
-                                                                               List of databases
-test_db=# \l+
-                                                                               List of databases
+```                                                                               List of databases
    Name    |      Owner      | Encoding |  Collate   |   Ctype    |            Access privileges            |  Size   | Tablespace |        
         Description                 
 -----------+-----------------+----------+------------+------------+-----------------------------------------+---------+------------+--------
