@@ -135,29 +135,38 @@ GRANT
 ```
 test_db=# \l+
                                                                                List of databases
-   Name    |      Owner      | Encoding |  Collate   |   Ctype    |            Access privileges            |  Size   | Tablespace |                Description
------------+-----------------+----------+------------+------------+-----------------------------------------+---------+------------+--------------------------------------------
- postgres  | test-admin-user | UTF8     | en_US.utf8 | en_US.utf8 |                                         | 7969 kB | pg_default | default administrative connection database
- template0 | test-admin-user | UTF8     | en_US.utf8 | en_US.utf8 | =c/"test-admin-user"                   +| 7825 kB | pg_default | unmodifiable empty database
-           |                 |          |            |            | "test-admin-user"=CTc/"test-admin-user" |         |            |
- template1 | test-admin-user | UTF8     | en_US.utf8 | en_US.utf8 | =c/"test-admin-user"                   +| 7825 kB | pg_default | default template for new databases
-           |                 |          |            |            | "test-admin-user"=CTc/"test-admin-user" |         |            |
- test_db   | test-admin-user | UTF8     | en_US.utf8 | en_US.utf8 | =Tc/"test-admin-user"                  +| 8121 kB | pg_default |
-           |                 |          |            |            | "test-admin-user"=CTc/"test-admin-user"+|         |            |
-           |                 |          |            |            | "test-simple-user"=c/"test-admin-user"  |         |            |
+test_db=# \l+
+                                                                               List of databases
+   Name    |      Owner      | Encoding |  Collate   |   Ctype    |            Access privileges            |  Size   | Tablespace |        
+        Description                 
+-----------+-----------------+----------+------------+------------+-----------------------------------------+---------+------------+--------
+------------------------------------
+ postgres  | test-admin-user | UTF8     | en_US.utf8 | en_US.utf8 |                                         | 7969 kB | pg_default | default
+ administrative connection database
+ template0 | test-admin-user | UTF8     | en_US.utf8 | en_US.utf8 | =c/"test-admin-user"                   +| 7825 kB | pg_default | unmodif
+iable empty database
+           |                 |          |            |            | "test-admin-user"=CTc/"test-admin-user" |         |            | 
+ template1 | test-admin-user | UTF8     | en_US.utf8 | en_US.utf8 | =c/"test-admin-user"                   +| 7825 kB | pg_default | default
+ template for new databases
+           |                 |          |            |            | "test-admin-user"=CTc/"test-admin-user" |         |            | 
+ test_db   | test-admin-user | UTF8     | en_US.utf8 | en_US.utf8 | =Tc/"test-admin-user"                  +| 8121 kB | pg_default | 
+           |                 |          |            |            | "test-admin-user"=CTc/"test-admin-user"+|         |            | 
+           |                 |          |            |            | "test-simple-user"=c/"test-admin-user"  |         |            | 
 (4 rows)
+
 
 ```
 - описание таблиц (describe)
 ```
 test_db=# \d+ clients
+ test_db=# \d+ clients
                                                            Table "public.clients"
-      Column       |       Type        | Collation | Nullable |               Default               | Storage  | Stats target | Description
+      Column       |       Type        | Collation | Nullable |               Default               | Storage  | Stats target | Description 
 -------------------+-------------------+-----------+----------+-------------------------------------+----------+--------------+-------------
- id                | integer           |           | not null | nextval('clients_id_seq'::regclass) | plain    |              |
- фамилия           | character varying |           |          |                                     | extended |              |
- страна проживания | character varying |           |          |                                     | extended |              |
- заказ             | integer           |           |          |                                     | plain    |              |
+ id                | integer           |           | not null | nextval('clients_id_seq'::regclass) | plain    |              | 
+ фамилия           | character varying |           |          |                                     | extended |              | 
+ страна проживания | character varying |           |          |                                     | extended |              | 
+ заказ             | integer           |           |          |                                     | plain    |              | 
 Indexes:
     "clients_pkey" PRIMARY KEY, btree (id)
     "clients_страна проживания_idx" btree ("страна проживания")
@@ -167,11 +176,11 @@ Access method: heap
 
 test_db=# \d+ orders
                                                         Table "public.orders"
-    Column    |       Type        | Collation | Nullable |              Default               | Storage  | Stats target | Description
+    Column    |       Type        | Collation | Nullable |              Default               | Storage  | Stats target | Description 
 --------------+-------------------+-----------+----------+------------------------------------+----------+--------------+-------------
- id           | integer           |           | not null | nextval('orders_id_seq'::regclass) | plain    |              |
- наименование | character varying |           |          |                                    | extended |              |
- цена         | integer           |           |          |                                    | plain    |              |
+ id           | integer           |           | not null | nextval('orders_id_seq'::regclass) | plain    |              | 
+ наименование | character varying |           |          |                                    | extended |              | 
+ цена         | integer           |           |          |                                    | plain    |              | 
 Indexes:
     "orders_pkey" PRIMARY KEY, btree (id)
 Referenced by:
