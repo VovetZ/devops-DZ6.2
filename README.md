@@ -381,19 +381,34 @@ Stopping psql ... done
 CONTAINER ID   IMAGE         COMMAND                  CREATED          STATUS                     PORTS     NAMES
 2200fdc99825   postgres:12   "docker-entrypoint.s…"   25 minutes ago   Exited (0) 8 seconds ago             psql
 
-⋊> ~/DZ6.2 docker run --rm -d -e POSTGRES_USER=test-admin-user -e POSTGRES_PASSWORD=netology -e POSTGRES_DB=test_db -v vagrant_backup:/media/postgresql/backup --name psql2 postgres:12
+⋊> ~/DZ6.2 docker run --rm -d -e POSTGRES_USER=test-admin-user -e POSTGRES_PASSWORD=netology -e POSTGRES_DB=test_db  --name psql2 postgres:12
 3dc675f94ea799c445ad92e6f7c020a4ad9cbd6859417cf251a4f18e9badeca3
 ⋊> ~/DZ6.2 docker ps -a                                                                                                             
 CONTAINER ID   IMAGE         COMMAND                  CREATED              STATUS                     PORTS      NAMES
 3dc675f94ea7   postgres:12   "docker-entrypoint.s…"   About a minute ago   Up About a minute          5432/tcp   psql2
 2200fdc99825   postgres:12   "docker-entrypoint.s…"   27 minutes ago       Exited (0) 2 minutes ago              psql
-vagrant@debian:~$ docker exec -it psql2  bash
-root@d82a1de7ffc4:/# ls /media/postgresql/backup/
-test_db.sql
-root@d82a1de7ffc4:/# export PGPASSWORD=netology && psql -h localhost -U test-admin-user -f /media/postgresql/backup/test_db.sql test_db
-root@d82a1de7ffc4:/# psql -h localhost -U test-admin-user test_db
-psql (12.10 (Debian 12.10-1.pgdg110+1))
-Type "help" for help.
 
-test_db=#
+⋊> ~/DZ6.2 docker cp psql:/media/postgresql/backup/test_db.sql .                                                                    11:49:23
+⋊> ~/DZ6.2 docker cp ./test_db.sql psql2:/tmp                                                                   11:49:34
+
+⋊> ~/DZ6.2 docker exec -it psql2  bash                                                                                              11:54:06
+root@dd47043acb31:/# ls -l /tmp
+total 8
+-rw-r--r-- 1 1000 1000 7336 Sep 25 08:36 test_db.sql
+root@dd47043acb31:/# export PGPASSWORD=netology
+root@dd47043acb31:/# psql -h localhost -U test-admin-user -f /tmp/test_db.sql test_db
+...
+root@dd47043acb31:/# psql -h localhost -U test-admin-user test_db
+psql (12.12 (Debian 12.12-1.pgdg110+1))
+Type "help" for help.
+test_db-# \d+
+                                List of relations
+ Schema |      Name      |   Type   |      Owner      |    Size    | Description 
+--------+----------------+----------+-----------------+------------+-------------
+ public | clients        | table    | test-admin-user | 16 kB      | 
+ public | clients_id_seq | sequence | test-admin-user | 8192 bytes | 
+ public | orders         | table    | test-admin-user | 16 kB      | 
+ public | orders_id_seq  | sequence | test-admin-user | 8192 bytes | 
+(4 rows)
+
 ```
