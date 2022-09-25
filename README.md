@@ -344,10 +344,8 @@ test_db=# test_db=# EXPLAIN SELECT* FROM clients WHERE заказ IS NOT NULL;
 (2 rows)
 
 ```
-```
 Чтение данных из таблицы clients происходит с использованием метода Seq Scan — последовательного чтения данных. Значение 0.00 — ожидаемые затраты на получение первой строки. Второе — 18.10 — ожидаемые затраты на получение всех строк. rows - ожидаемое число строк, которое должен вывести этот узел плана. При этом так же предполагается, что узел выполняется до конца. width - ожидаемый средний размер строк, выводимых этим узлом плана (в байтах). Каждая запись сравнивается с условием "заказ" IS NOT NULL. Если условие выполняется, запись вводится в результат. Иначе — отбрасывается.
 Если запустить explain analyze, то запрос будет выполнен и к плану добавятся уже точные данные по времени и объёму данных.
-```
 ```sql
 test_db=# EXPLAIN ANALYZE SELECT* FROM clients WHERE заказ IS NOT NULL;
                                              QUERY PLAN                                              
@@ -373,19 +371,22 @@ test_db=# EXPLAIN ANALYZE SELECT* FROM clients WHERE заказ IS NOT NULL;
 
 Приведите список операций, который вы применяли для бэкапа данных и восстановления.
 ```bash
-root@a540c2d91831:/# export PGPASSWORD=netology && pg_dumpall -h localhost -U test-admin-user > /media/postgresql/backup/test_db.sql
-root@a540c2d91831:/# ls /media/postgresql/backup/
-test_db.sql
-vagrant@debian:~$ docker-compose stop
+root@2200fdc99825:/# export PGPASSWORD=netology && pg_dumpall -h localhost -U test-admin-user > /media/postgresql/backup/test_db.sql
+root@2200fdc99825:/# ls -l /media/postgresql/backup/
+total 8
+-rw-r--r-- 1 root root 7336 Sep 25 08:36 test_db.sql
+⋊> ~/DZ6.2 docker-compose stop                                                                                                      11:37:08
 Stopping psql ... done
-vagrant@debian:~$ docker ps -a
+⋊> ~/DZ6.2 docker ps -a                                                                                                             11:37:16
 CONTAINER ID   IMAGE         COMMAND                  CREATED          STATUS                     PORTS     NAMES
-a540c2d91831   postgres:12   "docker-entrypoint.s…"   30 minutes ago   Exited (0) 9 seconds ago             psql
-vagrant@debian:~$ docker run --rm -d -e POSTGRES_USER=test-admin-user -e POSTGRES_PASSWORD=netology -e POSTGRES_DB=test_db -v vagrant_backup:/media/postgresql/backup --name psql2 postgres:12
-vagrant@debian:~$ docker ps -a
-CONTAINER ID   IMAGE         COMMAND                  CREATED          STATUS                          PORTS      NAMES
-d82a1de7ffc4   postgres:12   "docker-entrypoint.s…"   8 seconds ago    Up 7 seconds                    5432/tcp   psql2
-a540c2d91831   postgres:12   "docker-entrypoint.s…"   31 minutes ago   Exited (0) About a minute ago              psql
+2200fdc99825   postgres:12   "docker-entrypoint.s…"   25 minutes ago   Exited (0) 8 seconds ago             psql
+
+⋊> ~/DZ6.2 docker run --rm -d -e POSTGRES_USER=test-admin-user -e POSTGRES_PASSWORD=netology -e POSTGRES_DB=test_db -v vagrant_backup:/media/postgresql/backup --name psql2 postgres:12
+3dc675f94ea799c445ad92e6f7c020a4ad9cbd6859417cf251a4f18e9badeca3
+⋊> ~/DZ6.2 docker ps -a                                                                                                             
+CONTAINER ID   IMAGE         COMMAND                  CREATED              STATUS                     PORTS      NAMES
+3dc675f94ea7   postgres:12   "docker-entrypoint.s…"   About a minute ago   Up About a minute          5432/tcp   psql2
+2200fdc99825   postgres:12   "docker-entrypoint.s…"   27 minutes ago       Exited (0) 2 minutes ago              psql
 vagrant@debian:~$ docker exec -it psql2  bash
 root@d82a1de7ffc4:/# ls /media/postgresql/backup/
 test_db.sql
