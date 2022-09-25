@@ -134,7 +134,7 @@ GRANT
 - итоговый список БД после выполнения пунктов выше,
 ```
 test_db=# \l+
-```                                                                               List of databases
+                                                                               List of databases
    Name    |      Owner      | Encoding |  Collate   |   Ctype    |            Access privileges            |  Size   | Tablespace |        
         Description                 
 -----------+-----------------+----------+------------+------------+-----------------------------------------+---------+------------+--------
@@ -157,7 +157,6 @@ iable empty database
 - описание таблиц (describe)
 ```
 test_db=# \d+ clients
- test_db=# \d+ clients
                                                            Table "public.clients"
       Column       |       Type        | Collation | Nullable |               Default               | Storage  | Stats target | Description 
 -------------------+-------------------+-----------+----------+-------------------------------------+----------+--------------+-------------
